@@ -30,7 +30,6 @@ public class CameraManager : MonoBehaviour
     void Start()
     {
         desiredPos = CameraObject.transform.position;
-        Debug.Log("Screen.width=" + Screen.width);
     }
 
     void Update()
@@ -38,13 +37,11 @@ public class CameraManager : MonoBehaviour
         Vector3 targetPos = desiredPos;
         if (Input.mousePosition.x >= Screen.width - mDelta)
         {
-            Debug.Log("moving 1");
             // Move the camera
             targetPos += mRightDirection * Time.deltaTime * mSpeed;
         }
         if (Input.mousePosition.x <= 0 + mDelta)
         {
-            Debug.Log("moving 2");
             // Move the camera
             targetPos -= mRightDirection * Time.deltaTime * mSpeed;
         }
