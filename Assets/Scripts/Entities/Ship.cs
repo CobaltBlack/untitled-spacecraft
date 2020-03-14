@@ -161,11 +161,6 @@ public class Ship :
         IMineable i = entity as IMineable;
         if (i != null)
         {
-            // TODO: Handle no cargo space
-
-            // TODO: Handle nothing to mine
-
-
             uint mineAmount = (EmptyCargoSpace < MiningRate) ? EmptyCargoSpace : MiningRate;
             uint mined = i.OnMine(mineAmount);
             Debug.Log("mineAmount=" + mineAmount);
