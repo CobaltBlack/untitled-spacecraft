@@ -780,8 +780,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CameraObject: {fileID: 519420028}
-  mSpeed: 1
-  mDelta: 1
+  mSpeed: 20
+  mDelta: 20
 --- !u!4 &1111749777
 Transform:
   m_ObjectHideFlags: 0
