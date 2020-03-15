@@ -20,6 +20,8 @@ public class GeneralManager : MonoBehaviour
         }
     }
 
+    public GameObject ShipPrefab;
+
     private Entity selectedEntity;
 
     public void SelectEntity(Entity entity)
@@ -61,5 +63,41 @@ public class GeneralManager : MonoBehaviour
         }
 
         (selectedEntity as IHasMapAction)?.ActOnMap(worldPos);
+    }
+
+
+    public void InstantiateShip(Vector2 position, Blueprint bp)
+    {
+        // Instantiate the ship in game
+
+        // Load bp parts to add components to ship
+        foreach (BlueprintPart part in bp.Parts)
+        {
+
+        }
+
+        // Generate sprite
+
+        // Set collider box to same as sprite
+
+        // Add relevant components
+
+        // Calculate ship properties
+
+    }
+
+
+    // DEBUG CODE BELOW
+    public void DebugAddship()
+    {
+        InstantiateShip(new Vector3(0,0,0), DebugCreateBlueprint());
+    }
+
+    public Blueprint DebugCreateBlueprint()
+    {
+        Blueprint bp = new Blueprint();
+        bp.Name = "Experimental Spacecraft";
+        //bp.Parts.Add(new Part);
+        return bp;
     }
 }

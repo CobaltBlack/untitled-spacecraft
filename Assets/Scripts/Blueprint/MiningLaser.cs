@@ -1,8 +1,8 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MiningLaser : BlueprintPart
+public class BpMiningLaser : BlueprintPart
 {
     public uint MiningRate;
 }
