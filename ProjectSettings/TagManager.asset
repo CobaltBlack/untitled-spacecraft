@@ -3,7 +3,8 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - ShipEditor
   layers:
   - Default
   - TransparentFX
@@ -15,6 +16,16 @@ TagManager:
   - 
   - 
   - 
+  - Ships
+  - 
+  - Resources
+  - 
+  - 
+  - Buildings
+  - 
+  - 
+  - 
+  - Planets
   - 
   - 
   - 
@@ -24,20 +35,34 @@ TagManager:
   - 
   - 
   - 
+  - Stars
   - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Background
   m_SortingLayers:
+  - name: Background
+    uniqueID: 4246457043
+    locked: 0
+  - name: Stars
+    uniqueID: 2021264837
+    locked: 0
+  - name: Planets
+    uniqueID: 2796711283
+    locked: 0
+  - name: Resources
+    uniqueID: 3291560841
+    locked: 0
+  - name: Buildings
+    uniqueID: 3664078859
+    locked: 0
+  - name: Ships
+    uniqueID: 1399326387
+    locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: New Layer
+    uniqueID: 1879390265
+    locked: 0
+  - name: New Layer
+    uniqueID: 1801625771
     locked: 0
