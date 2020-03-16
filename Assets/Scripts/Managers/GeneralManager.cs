@@ -20,8 +20,6 @@ public class GeneralManager : MonoBehaviour
         }
     }
 
-    public GameObject ShipPrefab;
-
     private Entity selectedEntity;
 
     public void SelectEntity(Entity entity)
@@ -65,8 +63,6 @@ public class GeneralManager : MonoBehaviour
         (selectedEntity as IHasMapAction)?.ActOnMap(worldPos);
     }
 
-
-<<<<<<< HEAD
     // parent represents the thing that spawns this ship (eg. the ship assembler)
     public void InstantiateShip(Transform parent, Blueprint bp)
     {
@@ -86,21 +82,6 @@ public class GeneralManager : MonoBehaviour
         // Set collider box to same as sprite
         BoxCollider2D collider = shipInGame.GetComponent<BoxCollider2D>();
         collider.size = spriteR.bounds.size;
-=======
-    public void InstantiateShip(Vector2 position, Blueprint bp)
-    {
-        // Instantiate the ship in game
-
-        // Load bp parts to add components to ship
-        foreach (BlueprintPart part in bp.Parts)
-        {
-
-        }
-
-        // Generate sprite
-
-        // Set collider box to same as sprite
->>>>>>> master
 
         // Add relevant components
 

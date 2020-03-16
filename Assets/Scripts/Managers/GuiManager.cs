@@ -4,9 +4,13 @@ using UnityEngine;
 
 public class GuiManager : MonoBehaviour
 {
-    public void OnButtonClick()
+    public void OnAddShip()
     {
-        Debug.Log("Button clicked. Nice.");
         GeneralManager.Instance.DebugAddship();
+    }
+
+    public void OnSaveBp()
+    {
+        GeneralManager.Instance.DebugSaveBlueprint();
     }
 }
