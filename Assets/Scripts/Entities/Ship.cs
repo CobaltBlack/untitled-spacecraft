@@ -18,6 +18,7 @@ enum MovementState
 }
 
 
+// Old ship class implementation using Interfaces... will use component system instead
 public class Ship :
     Entity,
     ISelectable,
@@ -28,7 +29,7 @@ public class Ship :
     public const float ANGLE_THRESHOLD = 0.1f;
 
     // usually constant variabless
-    public string BlueprintName;
+    public Blueprint Blueprint;
     public float MaxSpeed;
     public float Acceleration;
     public float TurnRate;

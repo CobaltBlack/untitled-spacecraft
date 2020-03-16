@@ -66,6 +66,27 @@ public class GeneralManager : MonoBehaviour
     }
 
 
+<<<<<<< HEAD
+    // parent represents the thing that spawns this ship (eg. the ship assembler)
+    public void InstantiateShip(Transform parent, Blueprint bp)
+    {
+        // Instantiate the ship in game
+        GameObject shipInGame = Instantiate(ShipPrefab, parent);
+
+        // Load bp parts to add components to ship
+        //foreach (BlueprintPart part in bp.Parts)
+        //{
+        //          Debug.Log(part.Name);
+        //}
+
+        // Generate sprite
+        SpriteRenderer spriteR = shipInGame.GetComponent<SpriteRenderer>();
+        spriteR.sprite = Resources.Load<Sprite>("Sprites/testShipSpriteResource");
+
+        // Set collider box to same as sprite
+        BoxCollider2D collider = shipInGame.GetComponent<BoxCollider2D>();
+        collider.size = spriteR.bounds.size;
+=======
     public void InstantiateShip(Vector2 position, Blueprint bp)
     {
         // Instantiate the ship in game
@@ -79,6 +100,7 @@ public class GeneralManager : MonoBehaviour
         // Generate sprite
 
         // Set collider box to same as sprite
+>>>>>>> master
 
         // Add relevant components
 
@@ -88,16 +110,19 @@ public class GeneralManager : MonoBehaviour
 
 
     // DEBUG CODE BELOW
+
+    public GameObject ShipPrefab;
+    public GameObject DebugShipAssembler;
+    public Blueprint DebugBlueprint;
+
     public void DebugAddship()
     {
-        InstantiateShip(new Vector3(0,0,0), DebugCreateBlueprint());
+        Blueprint bp = BlueprintUtils.ReadBlueprintFile(Application.persistentDataPath + "/" + BlueprintUtils.FormatBlueprintFilename(DebugBlueprint));
+        InstantiateShip(DebugShipAssembler.transform, bp);
     }
 
-    public Blueprint DebugCreateBlueprint()
+    public string DebugSaveBlueprint()
     {
-        Blueprint bp = new Blueprint();
-        bp.Name = "Experimental Spacecraft";
-        //bp.Parts.Add(new Part);
-        return bp;
+        return BlueprintUtils.SaveBlueprint(DebugBlueprint);
     }
 }

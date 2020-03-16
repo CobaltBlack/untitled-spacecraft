@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8294383781173930715}
   - component: {fileID: 8294383781173930714}
   - component: {fileID: 8294383781173930713}
-  - component: {fileID: 8294383781173930716}
+  - component: {fileID: 8817302034324957630}
   m_Layer: 0
   m_Name: ShipPrefab
   m_TagString: Untagged
@@ -109,7 +109,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.0001, y: 0.0001}
   m_EdgeRadius: 0
---- !u!114 &8294383781173930716
+--- !u!114 &8817302034324957630
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -118,6 +118,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 8294383781173930712}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7fd4d7e891034504eaa262e1ce7bdaff, type: 3}
+  m_Script: {fileID: 11500000, guid: 29c043db267c9774dad0a98bd8e2364e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Blueprint:
+    Name: 
+    Parts: []
+  MaxSpeed: 0
+  Acceleration: 0
+  TurnRate: 0
+  MiningRate: 0
+  MaxCargoSpace: 0
+  EmptyCargoSpace: 0

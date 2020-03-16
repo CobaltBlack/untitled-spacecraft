@@ -29,16 +29,30 @@ public class BlueprintUtils
         return bp;
     }
 
-    public static void SaveBlueprint(Blueprint bp)
+    public static string SaveBlueprint(Blueprint bp)
     {
-        BinaryFormatter bf = new BinaryFormatter();
-        FileStream file = File.Create(Application.persistentDataPath + "/" + FormatBlueprintFilename(bp));
-        bf.Serialize(file, bp);
-        file.Close();
+        string filepath = Application.persistentDataPath + "/" + FormatBlueprintFilename(bp);
+        Debug.Log(filepath);
+        FileStream file = File.Create(filepath);
+        try
+        {
+            BinaryFormatter bf = new BinaryFormatter();
+            bf.Serialize(file, bp);
+        }
+        catch (SerializationException e)
+        {
+            Debug.Log("Failed to Serialize. Reason: " + e.Message);
+            throw;
+        }
+        finally
+        {
+            file.Close();
+        }
 
+        return filepath;
     }
 
-    private static string FormatBlueprintFilename(Blueprint bp)
+    public static string FormatBlueprintFilename(Blueprint bp)
     {
         return bp.Name + ".bp";
     }
