@@ -41,8 +41,9 @@ public class BlueprintPartPlaced
 // Ship part asset data
 public class BlueprintPart : ScriptableObject
 {
+	public string Id; // Unique ID; should match prefab name
 	public string Name;
-	public string Id;
+	public string Description;
 	public BpPartType Type;
 	public uint Width; // in tiles
 	public uint Length; // in tiles

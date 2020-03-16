@@ -9,11 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: edfe71cd654b4434c8500d5f267a0efe, type: 3}
   m_Name: cargo1
-  m_EditorClassIdentifier: Assembly-CSharp::BpCargo
-  Name: Small Cargo Section
+  m_EditorClassIdentifier: 
   Id: cargo1
+  Name: Small Cargo Section
+  Description: 
   Type: 0
   Width: 1
   Length: 1
