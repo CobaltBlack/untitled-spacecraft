@@ -68,8 +68,11 @@ public class GeneralManager : MonoBehaviour
     {
         // Instantiate the ship in game
         GameObject shipInGame = Instantiate(ShipPrefab, parent);
+        var ship = shipInGame.GetComponent<Ship>();
+        ship.Blueprint = bp;
 
         // Load bp parts to add components to ship
+
         //foreach (BlueprintPart part in bp.Parts)
         //{
         //          Debug.Log(part.Name);

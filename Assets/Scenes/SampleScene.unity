@@ -960,7 +960,7 @@ MonoBehaviour:
   DebugBlueprint:
     Name: CoolShip
     Parts:
-    - BlueprintPart: {fileID: 11400000, guid: 38fc04cac3482e546a8983680ad2e6f6, type: 2}
+    - BlueprintId: cargo1
       X: 0
       Y: 0
       Orientation: 0

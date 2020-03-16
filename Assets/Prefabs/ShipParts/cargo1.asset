@@ -12,9 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 0}
   m_Name: cargo1
   m_EditorClassIdentifier: Assembly-CSharp::BpCargo
-  Name: Small Cargo Storage
+  Name: Small Cargo Section
+  Id: cargo1
   Type: 0
   Width: 1
   Length: 1
   Mass: 1
+  BuildCost:
+  - Resource: 0
+    Amount: 10
+  ResearchCost: []
   MaxCargoSpace: 10
