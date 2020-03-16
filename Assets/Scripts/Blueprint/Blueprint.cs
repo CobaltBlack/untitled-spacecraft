@@ -27,7 +27,7 @@ public class Blueprint
 }
 
 
-// Includes positional values for the BP part
+// Includes positional values for the part placed in a Blueprint
 [System.Serializable]
 public class BlueprintPartPlaced
 {
@@ -38,7 +38,7 @@ public class BlueprintPartPlaced
 }
 
 
-// Represents each tile/object placed in the blueprint
+// Ship part asset data
 public class BlueprintPart : ScriptableObject
 {
 	public string Name;
