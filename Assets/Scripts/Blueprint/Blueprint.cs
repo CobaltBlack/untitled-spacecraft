@@ -31,7 +31,7 @@ public class Blueprint
 [System.Serializable]
 public class BlueprintPartPlaced
 {
-	public string BlueprintId;
+	public string PartId;
 	public int X;
 	public int Y;
 	public BpPartOrientation Orientation;
@@ -39,11 +39,16 @@ public class BlueprintPartPlaced
 
 
 // Ship part asset data
-public class BlueprintPart : ScriptableObject
+public abstract class BlueprintPart : ScriptableObject
 {
 	public string Id; // Unique ID; should match prefab name
+
+	// Display values
 	public string Name;
 	public string Description;
+	public Sprite Sprite;
+
+	// Gameplay values
 	public BpPartType Type;
 	public uint Width; // in tiles
 	public uint Length; // in tiles
@@ -52,7 +57,7 @@ public class BlueprintPart : ScriptableObject
 	public List<ResourceCost> ResearchCost;
 }
 
-[System.Serializable]
+
 public struct ResourceCost
 {
 	public ResourceType Resource;

@@ -26,7 +26,7 @@ public class GeneralManager : MonoBehaviour
     {
         ISelectable i = entity as ISelectable;
         if (i != null && entity != selectedEntity)
-        { 
+        {
             selectedEntity = entity;
             i.OnSelect();
         }
@@ -63,33 +63,64 @@ public class GeneralManager : MonoBehaviour
         (selectedEntity as IHasMapAction)?.ActOnMap(worldPos);
     }
 
-    // parent represents the thing that spawns this ship (eg. the ship assembler)
-    public void InstantiateShip(Transform parent, Blueprint bp)
+	// parent represents the thing that spawns this ship (eg. the ship assembler)
+	public void InstantiateShip(Transform parent, Blueprint bp)
     {
         // Instantiate the ship in game
-        GameObject shipInGame = Instantiate(ShipPrefab, parent);
-        var ship = shipInGame.GetComponent<Ship>();
+        GameObject shipObject = Instantiate(ShipPrefab, parent);
+        var ship = shipObject.GetComponent<Ship>();
         ship.Blueprint = bp;
 
         // Load bp parts to add components to ship
+        var shipPartsMap = new Dictionary<BpPartType, List<BlueprintPart> >();
+		foreach (var partPlaced in bp.Parts)
+		{
+            Debug.Log(partPlaced.PartId);
+            var part = BlueprintUtils.GetBpPartById(partPlaced.PartId);
+            if (!shipPartsMap.ContainsKey(part.Type))
+            {
+                shipPartsMap.Add(part.Type, new List<BlueprintPart>());
+            }
 
-        //foreach (BlueprintPart part in bp.Parts)
-        //{
-        //          Debug.Log(part.Name);
-        //}
+            shipPartsMap[part.Type].Add(part);
+        }
 
-        // Generate sprite
-        SpriteRenderer spriteR = shipInGame.GetComponent<SpriteRenderer>();
+        foreach (BpPartType bpType in shipPartsMap.Keys)
+        {
+            //BpTypeMap[bpType].
+            switch (bpType)
+            {
+                case BpPartType.Cargo:
+                    AddCargoPartsToShip(shipObject, shipPartsMap[bpType]);
+                    break;
+                default:
+                    Debug.Log("Unsupported part type: " + bpType);
+                    break;
+            }
+        }
+
+        // Generate sprite from bp parts
+        SpriteRenderer spriteR = shipObject.GetComponent<SpriteRenderer>();
         spriteR.sprite = Resources.Load<Sprite>("Sprites/testShipSpriteResource");
 
         // Set collider box to same as sprite
-        BoxCollider2D collider = shipInGame.GetComponent<BoxCollider2D>();
+        BoxCollider2D collider = shipObject.GetComponent<BoxCollider2D>();
         collider.size = spriteR.bounds.size;
 
         // Add relevant components
 
         // Calculate ship properties
 
+    }
+
+    void AddCargoPartsToShip(GameObject shipObject, List<BlueprintPart> cargoParts)
+    {
+        foreach (BpCargo cargo in cargoParts)
+        {
+            if (!cargo) continue;
+            Debug.Log(cargo.Name);
+        }
+        // also add mass and stuff
     }
 
 

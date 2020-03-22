@@ -7,6 +7,28 @@ using UnityEngine;
 
 public class BlueprintUtils
 {
+    private static Dictionary<string, BlueprintPart> BpPartMap = new Dictionary<string, BlueprintPart>();
+
+    public static void InitializeBlueprintParts()
+    {
+        var parts = Resources.LoadAll("BlueprintParts", typeof(BlueprintPart));
+        foreach (BlueprintPart part in parts)
+        {
+            BpPartMap.Add(part.Id, part);
+        }
+    }
+
+    public static BlueprintPart GetBpPartById(string id)
+    {
+        // How to handle non-existent ID?
+        if (!BpPartMap.ContainsKey(id))
+        {
+            return null;
+        }
+        return BpPartMap[id];
+    }
+
+
     public static Blueprint ReadBlueprintFile(string filepath)
     {
         Blueprint bp = null;
