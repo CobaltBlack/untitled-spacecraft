@@ -25,8 +25,10 @@ public class GeneralManager : MonoBehaviour
     public void SelectEntity(Entity entity)
     {
         ISelectable i = entity as ISelectable;
+        Debug.Log("Selecting entity: " + entity.Name);
         if (i != null && entity != selectedEntity)
         {
+            Debug.Log("Selecting entity 2: " + entity.Name);
             selectedEntity = entity;
             i.OnSelect();
         }
@@ -83,15 +85,17 @@ public class GeneralManager : MonoBehaviour
             }
 
             shipPartsMap[part.Type].Add(part);
+
+            // Add common values to ship
+            ship.AddBlueprintPart(part);
         }
 
         foreach (BpPartType bpType in shipPartsMap.Keys)
         {
-            //BpTypeMap[bpType].
             switch (bpType)
             {
                 case BpPartType.Cargo:
-                    AddCargoPartsToShip(shipObject, shipPartsMap[bpType]);
+                    AddCargoPartsToShip(ship, shipPartsMap[bpType]);
                     break;
                 default:
                     Debug.Log("Unsupported part type: " + bpType);
@@ -106,19 +110,18 @@ public class GeneralManager : MonoBehaviour
         // Set collider box to same as sprite
         BoxCollider2D collider = shipObject.GetComponent<BoxCollider2D>();
         collider.size = spriteR.bounds.size;
-
-        // Add relevant components
-
-        // Calculate ship properties
-
     }
 
-    void AddCargoPartsToShip(GameObject shipObject, List<BlueprintPart> cargoParts)
+    void AddCargoPartsToShip(Ship ship, List<BlueprintPart> cargoParts)
     {
+        GameObject shipObject = ship.gameObject;
+        var cmpCargo = shipObject.AddComponent<CmpCargo>() as CmpCargo;
+        ship.CmpCargo = cmpCargo;
         foreach (BpCargo cargo in cargoParts)
         {
             if (!cargo) continue;
             Debug.Log(cargo.Name);
+            cmpCargo.AddCargoPart(cargo);
         }
         // also add mass and stuff
     }

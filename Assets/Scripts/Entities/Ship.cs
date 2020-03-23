@@ -30,6 +30,7 @@ public class Ship :
 
     // usually constant variabless
     public Blueprint Blueprint;
+
     public float MaxSpeed;
     public float Acceleration;
     public float TurnRate;
@@ -48,15 +49,14 @@ public class Ship :
     // Mining
     public uint MiningRate;
 
-    // Inventory
-    public uint MaxCargoSpace;
-    public uint EmptyCargoSpace;
-    private Dictionary<ResourceType, uint> cargo;
+    // Component references
+    [HideInInspector]
+    public CmpCargo CmpCargo;
 
     // Start is called before the first frame update
     void Start()
     {
-        // Load stats from ship blueprint
+        Mass = 0;
         state = ShipState.Idle;
         destination = transform.position;
         currentSpeed = 0.0f;
@@ -65,9 +65,6 @@ public class Ship :
         currentVelocity = new Vector3(0.0f, 0.0f, 0.0f);
 
         distanceToMaxSpeed = 0.5f * Acceleration * Mathf.Pow(MaxSpeed / Acceleration, 2);
-
-        EmptyCargoSpace = MaxCargoSpace;
-        cargo = new Dictionary<ResourceType, uint>();
     }
 
     // Update is called once per frame
@@ -126,6 +123,13 @@ public class Ship :
         transform.position += currentVelocity * Time.deltaTime;
     }
 
+ 
+    // Set ship's common values
+    public void AddBlueprintPart(BlueprintPart bpPart)
+    {
+        Mass += bpPart.Mass;
+    }
+
 
     void setDestination(Vector2 mapPos)
     {
@@ -162,21 +166,16 @@ public class Ship :
         IMineable i = entity as IMineable;
         if (i != null)
         {
-            uint mineAmount = (EmptyCargoSpace < MiningRate) ? EmptyCargoSpace : MiningRate;
+            uint mineAmount = MiningRate;
             uint mined = i.OnMine(mineAmount);
-            Debug.Log("mineAmount=" + mineAmount);
-            Debug.Log("mined=" + mined);
 
             // Add to cargo
             ResourceType resourceType = i.GetResourceType();
-            if (!cargo.ContainsKey(resourceType))
+            CmpCargo.LoadCargo(new ResourceAmount
             {
-                cargo.Add(resourceType, (uint)0);
-            }
-            cargo[resourceType] += mined;
-            EmptyCargoSpace -= mined;
-            Debug.Log("cargo");
-            Debug.Log(DebugUtils.ToDebugString<ResourceType, uint>(cargo));
+                Type = resourceType,
+                Amount = mined
+            });
         }
     }
 

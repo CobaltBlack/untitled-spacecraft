@@ -53,13 +53,13 @@ public abstract class BlueprintPart : ScriptableObject
 	public uint Width; // in tiles
 	public uint Length; // in tiles
 	public float Mass;
-	public List<ResourceCost> BuildCost;
-	public List<ResourceCost> ResearchCost;
+	public List<ResourceAmount> BuildCost;
+	public List<ResourceAmount> ResearchCost;
 }
 
 
-public struct ResourceCost
+public struct ResourceAmount
 {
-	public ResourceType Resource;
+	public ResourceType Type;
 	public uint Amount;
 }
