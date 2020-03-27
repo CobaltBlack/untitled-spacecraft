@@ -25,10 +25,8 @@ public class GeneralManager : MonoBehaviour
     public void SelectEntity(Entity entity)
     {
         ISelectable i = entity as ISelectable;
-        Debug.Log("Selecting entity: " + entity.Name);
         if (i != null && entity != selectedEntity)
         {
-            Debug.Log("Selecting entity 2: " + entity.Name);
             selectedEntity = entity;
             i.OnSelect();
         }
@@ -97,6 +95,12 @@ public class GeneralManager : MonoBehaviour
                 case BpPartType.Cargo:
                     AddCargoPartsToShip(ship, shipPartsMap[bpType]);
                     break;
+                case BpPartType.Thruster:
+                    AddThrusterPartsToShip(ship, shipPartsMap[bpType]);
+                    break;
+                case BpPartType.Mining:
+                    AddMiningPartsToShip(ship, shipPartsMap[bpType]);
+                    break;
                 default:
                     Debug.Log("Unsupported part type: " + bpType);
                     break;
@@ -112,18 +116,48 @@ public class GeneralManager : MonoBehaviour
         collider.size = spriteR.bounds.size;
     }
 
-    void AddCargoPartsToShip(Ship ship, List<BlueprintPart> cargoParts)
+
+    void AddCargoPartsToShip(Ship ship, List<BlueprintPart> parts)
     {
         GameObject shipObject = ship.gameObject;
         var cmpCargo = shipObject.AddComponent<CmpCargo>() as CmpCargo;
-        ship.CmpCargo = cmpCargo;
-        foreach (BpCargo cargo in cargoParts)
+        cmpCargo.AddToShip(ship);
+        foreach (BpCargo cargo in parts)
         {
             if (!cargo) continue;
             Debug.Log(cargo.Name);
             cmpCargo.AddCargoPart(cargo);
         }
-        // also add mass and stuff
+    }
+
+
+    void AddThrusterPartsToShip(Ship ship, List<BlueprintPart> parts)
+    {
+        GameObject shipObject = ship.gameObject;
+        var cmpThruster = shipObject.AddComponent<CmpThruster>() as CmpThruster;
+        cmpThruster.AddToShip(ship);
+        foreach (BpThruster thruster in parts)
+        {
+            if (thruster)
+            {
+                Debug.Log(thruster.Name);
+                cmpThruster.AddThrusterPart(thruster);
+            }
+        }
+        cmpThruster.UpdateByMass(ship.Mass);
+    }
+
+
+    void AddMiningPartsToShip(Ship ship, List<BlueprintPart> parts)
+    {
+        GameObject shipObject = ship.gameObject;
+        var cmpMining = shipObject.AddComponent<CmpMining>() as CmpMining;
+        cmpMining.AddToShip(ship);
+        foreach (BpMiningLaser mining in parts)
+        {
+            if (!mining) continue;
+            cmpMining.AddMiningPart(mining);
+        }
     }
 
 

@@ -19,5 +19,5 @@ MonoBehaviour:
   Type: 0
   Width: 1
   Length: 1
-  Mass: 1
+  Mass: 100
   MaxCargoSpace: 10

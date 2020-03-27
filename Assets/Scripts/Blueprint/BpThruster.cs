@@ -2,7 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BpEngine : BlueprintPart
+[CreateAssetMenu(menuName = "Ship Parts/Thruster")]
+public class BpThruster : BlueprintPart
 {
-    public float Force;
+    public float Force;  // Total force of thruster
+    public float Isp;  // propellant efficiency
 }

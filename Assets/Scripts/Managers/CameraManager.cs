@@ -56,6 +56,6 @@ public class CameraManager : MonoBehaviour
             targetPos -= mUpDirection * Time.deltaTime * mSpeed;
         }
         desiredPos = targetPos;
-        //CameraObject.transform.position = targetPos;
-    }
+		CameraObject.transform.position = targetPos;
+	}
 }
