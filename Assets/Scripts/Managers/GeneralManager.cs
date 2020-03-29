@@ -76,7 +76,7 @@ public class GeneralManager : MonoBehaviour
 		foreach (var partPlaced in bp.Parts)
 		{
             Debug.Log(partPlaced.PartId);
-            var part = BlueprintUtils.GetBpPartById(partPlaced.PartId);
+            var part = BlueprintManager.Instance.GetBpPartById(partPlaced.PartId);
             if (!shipPartsMap.ContainsKey(part.Type))
             {
                 shipPartsMap.Add(part.Type, new List<BlueprintPart>());

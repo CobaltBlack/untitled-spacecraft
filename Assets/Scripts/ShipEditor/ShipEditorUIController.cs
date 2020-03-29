@@ -16,11 +16,13 @@ public class ShipEditorUIController : MonoBehaviour
     [SerializeField]
     private GameObject[] engines;
     [SerializeField]
-    private GameObject[] cargos;
+    private GameObject[] cargos; 
 
     [Header("Selection")]
     [SerializeField]
     private RectTransform masterPanel;
+    [SerializeField]
+    private List<GameObject> subPanels;
     [SerializeField]
     private RectTransform subPanelEngines;
     [SerializeField]
@@ -36,8 +38,10 @@ public class ShipEditorUIController : MonoBehaviour
     {
         shipEditorInstance = GetComponent<ShipEditor>();
         InitializeMasterPanel();
-        InitailizeEnginePanel();
-        InitailizeCargoPanel();
+        foreach (var subPanel in subPanels)
+        {
+            InitSubPanel(subPanel);
+        }
     }
 
     void Update()
@@ -81,42 +85,55 @@ public class ShipEditorUIController : MonoBehaviour
     {
         masterPanel.gameObject.SetActive(false);
 
-        GameObject currentButton = Instantiate(button, masterPanel);
-        currentButton.GetComponent<Button>().onClick.AddListener(ToggleSubPanelEngines);
-        currentButton.GetComponentInChildren<TextMeshProUGUI>().SetText("E");
 
-        currentButton = Instantiate(button, masterPanel);
-        currentButton.GetComponent<Button>().onClick.AddListener(ToggleSubPanelCargos);
-        currentButton.GetComponentInChildren<TextMeshProUGUI>().SetText("C");
-    }
-
-    private void InitailizeEnginePanel()
-    {
-        subPanelEngines.gameObject.SetActive(false);
-        for (int i = 0;  i < engines.Length; i++)
+        foreach (var subPanel in subPanels)
         {
-            int index = i;
-            GameObject currentButton = Instantiate(button, subPanelEngines);
-            currentButton.GetComponent<Button>().onClick.AddListener(delegate { shipEditorInstance.SelectShipPart(engines[index]); });
-            currentButton.GetComponentInChildren<TextMeshProUGUI>().SetText("^");
+            GameObject currentButton = Instantiate(button, masterPanel);
+            currentButton.GetComponent<Button>().onClick.AddListener(() =>
+            {
+                ToggleSubPanel(subPanel);
+            });
+            currentButton.GetComponentInChildren<TextMeshProUGUI>().SetText(
+                subPanel.GetComponent<SESubPanel>().Name
+            );
         }
     }
 
-    private void InitailizeCargoPanel()
+
+    private void InitSubPanel(GameObject subPanel)
     {
-        subPanelCargos.gameObject.SetActive(false);
-        for (int i = 0; i < cargos.Length; i++)
+        subPanel.SetActive(false);
+        var subPanelData = subPanel.GetComponent<SESubPanel>();
+        var rect = subPanel.GetComponent<RectTransform>();
+        var parts = BlueprintManager.Instance.GetBpPartsListByType(subPanelData.Type);
+        foreach (var part in parts)
         {
-            int index = i;
-            GameObject currentButton = Instantiate(button, subPanelCargos);
-            currentButton.GetComponent<Button>().onClick.AddListener(delegate { shipEditorInstance.SelectShipPart(cargos[index]); });
-            currentButton.GetComponentInChildren<TextMeshProUGUI>().SetText("#");
+            GameObject currentButton = Instantiate(button, rect);
+            currentButton.GetComponent<Button>().onClick.AddListener(delegate {
+                shipEditorInstance.SelectShipPart(part);
+            });
+            currentButton.GetComponentInChildren<TextMeshProUGUI>().SetText(part.Id);
+        }
+    }
+
+    private void ToggleSubPanel(GameObject subPanel)
+    {
+        if (subPanel.activeSelf)
+        {
+            subPanel.SetActive(false);
+        }
+        else
+        {
+            CloseAllSubPanels();
+            subPanel.SetActive(true);
         }
     }
 
     public void CloseAllSubPanels()
     {
-        this.subPanelEngines.gameObject.SetActive(false);
-        this.subPanelCargos.gameObject.SetActive(false);
+        foreach (var subPanel in this.subPanels)
+        {
+            subPanel.SetActive(false);
+        }
     }
 }

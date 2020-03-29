@@ -33,7 +33,10 @@ public class ShipEditor : MonoBehaviour
         // Track selected ship part to cursor
         if (hit && selectedShipPart)
         {
-            Vector2 gridLocation = new Vector2(Mathf.Round(hit.point.x / GRID_SIZE) * GRID_SIZE, Mathf.Round(hit.point.y / GRID_SIZE) * GRID_SIZE);
+            Vector2 gridLocation = new Vector2(
+                Mathf.Round(hit.point.x / GRID_SIZE) * GRID_SIZE, 
+                Mathf.Round(hit.point.y / GRID_SIZE) * GRID_SIZE
+            );
             this.selectedShipPart.transform.position = gridLocation;
         }
         // LEFT CLICK
@@ -58,11 +61,12 @@ public class ShipEditor : MonoBehaviour
         this.selectedShipPart = null;
     }
 
-    public void SelectShipPart(GameObject shipPart)
+    public void SelectShipPart(BlueprintPart bpPart)
     {
-        DeselectShipPart();
-        this.selectedShipPart = Instantiate(shipPart);
-        this.selectedShipPart.gameObject.SetActive(true);
+        Debug.Log("[SE] Selected part: " + bpPart.Id);
+        //DeselectShipPart();
+        //this.selectedShipPart = Instantiate(shipPart);
+        //this.selectedShipPart.gameObject.SetActive(true);
     }
 
     private void DeselectShipPart()
