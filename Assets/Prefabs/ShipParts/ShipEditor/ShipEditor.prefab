@@ -46,6 +46,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   GRID_SIZE: 2
+  PlaceablePartPf: {fileID: 8051625765843887157, guid: 5857e587e7a4f1d4cb242b3379a912eb,
+    type: 3}
 --- !u!114 &806236840952313574
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -58,14 +60,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a954534c8a343943be34788e279e87e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  engines:
-  - {fileID: 3511665615413109133, guid: 861d30ca82b152f47ab873479e001006, type: 3}
-  cargos:
-  - {fileID: 629868801458537749, guid: a9622d102c4f1e445872fea306f3d5fe, type: 3}
   masterPanel: {fileID: 0}
+  subPanels: []
   subPanelEngines: {fileID: 0}
   subPanelCargos: {fileID: 0}
-  button: {fileID: 6235679272755403251, guid: 38039b0f17c8c174a91bf8765f46bc0f, type: 3}
+  button: {fileID: 0}
 --- !u!1 &806236841121662623
 GameObject:
   m_ObjectHideFlags: 0

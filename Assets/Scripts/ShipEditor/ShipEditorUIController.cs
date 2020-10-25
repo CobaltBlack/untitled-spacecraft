@@ -12,12 +12,6 @@ using TMPro;
  */
 public class ShipEditorUIController : MonoBehaviour
 {
-    [Header("Building blocks")]
-    [SerializeField]
-    private GameObject[] engines;
-    [SerializeField]
-    private GameObject[] cargos; 
-
     [Header("Selection")]
     [SerializeField]
     private RectTransform masterPanel;
