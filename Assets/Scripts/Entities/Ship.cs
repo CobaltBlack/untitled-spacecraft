@@ -23,8 +23,8 @@ public class Ship :
     IHasMapAction,
     IHasEntityAction {
 
+
   // usually constant variabless
-  public Blueprint Blueprint;
 
   // Private
   private ShipState state;
@@ -45,12 +45,25 @@ public class Ship :
     state = ShipState.Idle;
   }
 
-  // Update is called once per frame
-  //void Update()
-  //{
-  //    UpdatePosition();
-  //}
+  public BlueprintNew Blueprint { get; private set; }
+  public void InitBlueprint(BlueprintNew bp) {
+    Blueprint = bp;
 
+    // Each new behaviour is a component?
+    // Make components register as Observers
+
+    foreach (string id in bp.ShipAttachmentIds) {
+
+    }
+
+    foreach (string id in bp.ShipThrusterIds) {
+
+    }
+
+    foreach (string id in bp.ShipEquipmentIds) {
+
+    }
+  }
 
 
   // Set ship's common values

@@ -10,13 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 0}
-  m_Name: iondrive
+  m_Name: ionthruster_s
   m_EditorClassIdentifier: Assembly-CSharp::ShipThruster
-  Id: 
-  Name: 
+  Id: ionthruster_s
+  Name: Ion Thruster (s)
   Description: 
   Sprite: {fileID: 0}
   Size: 0
-  Mass: 0
-  PowerConsumption: 0
-  Thrust: 0
+  Mass: 10
+  PowerConsumption: 5
+  BuildCost: []
+  ResearchCost: []
+  Thrust: 5
+  PropellantCost: []

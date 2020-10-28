@@ -5,55 +5,41 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.Runtime.Serialization;
 using UnityEngine;
 
-public class BlueprintUtils
-{
-    public static Blueprint ReadBlueprintFile(string filepath)
-    {
-        Blueprint bp = null;
-        FileStream file = new FileStream(filepath, FileMode.Open);
-        try
-        {
-            BinaryFormatter formatter = new BinaryFormatter();
-            bp = (Blueprint)formatter.Deserialize(file);
-        }
-        catch (SerializationException e)
-        {
-            Debug.Log("Failed to deserialize. Reason: " + e.Message);
-            throw;
-        }
-        finally
-        {
-            file.Close();
-        }
-        
-        return bp;
+public class BlueprintUtils {
+  public static BlueprintNew ReadBlueprintFile(string filepath) {
+    BlueprintNew bp = null;
+    FileStream file = new FileStream(filepath, FileMode.Open);
+    try {
+      BinaryFormatter formatter = new BinaryFormatter();
+      bp = (BlueprintNew)formatter.Deserialize(file);
+    } catch (SerializationException e) {
+      Debug.Log("Failed to deserialize. Reason: " + e.Message);
+      throw;
+    } finally {
+      file.Close();
     }
 
-    public static string SaveBlueprint(Blueprint bp)
-    {
-        string filepath = Application.persistentDataPath + "/" + FormatBlueprintFilename(bp);
-        Debug.Log(filepath);
-        FileStream file = File.Create(filepath);
-        try
-        {
-            BinaryFormatter bf = new BinaryFormatter();
-            bf.Serialize(file, bp);
-        }
-        catch (SerializationException e)
-        {
-            Debug.Log("Failed to Serialize. Reason: " + e.Message);
-            throw;
-        }
-        finally
-        {
-            file.Close();
-        }
+    return bp;
+  }
 
-        return filepath;
+  public static string SaveBlueprint(BlueprintNew bp) {
+    string filepath = Application.persistentDataPath + "/" + FormatBlueprintFilename(bp);
+    Debug.Log(filepath);
+    FileStream file = File.Create(filepath);
+    try {
+      BinaryFormatter bf = new BinaryFormatter();
+      bf.Serialize(file, bp);
+    } catch (SerializationException e) {
+      Debug.Log("Failed to Serialize. Reason: " + e.Message);
+      throw;
+    } finally {
+      file.Close();
     }
 
-    public static string FormatBlueprintFilename(Blueprint bp)
-    {
-        return bp.Name + ".bp";
-    }
+    return filepath;
+  }
+
+  public static string FormatBlueprintFilename(BlueprintNew bp) {
+    return bp.Name + ".bp";
+  }
 }

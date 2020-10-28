@@ -12,11 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 0}
   m_Name: mininglaser_s
   m_EditorClassIdentifier: Assembly-CSharp::MiningAttachment
-  Id: 
-  Name: 
+  Id: mininglaser_s
+  Name: Mining Laser (s)
   Description: 
   Sprite: {fileID: 0}
   Type: 0
-  Mass: 0
-  PowerConsumption: 0
-  MiningSpeed: 0
+  Size: 0
+  Mass: 5
+  PowerConsumption: 5
+  BuildCost: []
+  ResearchCost: []
+  MiningSpeed: 0.5

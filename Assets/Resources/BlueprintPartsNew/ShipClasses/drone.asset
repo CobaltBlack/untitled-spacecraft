@@ -10,14 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 0}
-  m_Name: New Ship Class
+  m_Name: drone
   m_EditorClassIdentifier: Assembly-CSharp::ShipClass
-  Id: 
-  Name: 
+  Id: drone
+  Name: Drone
   Description: 
   Sprite: {fileID: 0}
-  Mass: 0
+  Mass: 10
   BuildCost: []
   ResearchCost: []
-  CargoSpace: 0
-  ExternalSlots: []
+  CargoSpace: 10
+  ExternalSlots:
+  - Type: 0
+    Size: 0
+    PositionOffset: {x: 0, y: 5}
+  - Type: 1
+    Size: 0
+    PositionOffset: {x: 0, y: -5}

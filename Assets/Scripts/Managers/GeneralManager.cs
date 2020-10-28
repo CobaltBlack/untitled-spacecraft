@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Net.Mail;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -50,46 +51,21 @@ public class GeneralManager : MonoBehaviour {
       (selectedEntity as IHasMapAction)?.ActOnMap(worldPos);
   }
 
+  private Dictionary<string, Ship> AllShips;
+
   // parent represents the thing that spawns this ship (eg. the ship assembler)
-  public void InstantiateShip(Transform parent, Blueprint bp) {
+  public void InstantiateShip(Transform parent, BlueprintNew bp) {
     // Instantiate the ship in game
     GameObject shipObject = Instantiate(ShipPrefab, parent);
     var ship = shipObject.GetComponent<Ship>();
-    ship.Blueprint = bp;
 
-    // Load bp parts to add components to ship
-    var shipPartsMap = new Dictionary<BpPartType, List<BlueprintPart>>();
-    foreach (var partPlaced in bp.Parts) {
-      Debug.Log(partPlaced.PartId);
-      var part = BlueprintManager.Instance.GetBpPartById(partPlaced.PartId);
-      if (!shipPartsMap.ContainsKey(part.Type)) {
-        shipPartsMap.Add(part.Type, new List<BlueprintPart>());
-      }
+    ship.InitBlueprint(bp);
 
-      shipPartsMap[part.Type].Add(part);
+    // All ships register to central manager
+    ship.Id = IdGenerator.GenShipId();
+    AllShips.Add(ship.Id, ship);
 
-      // Add common values to ship
-      ship.AddBlueprintPart(part);
-    }
-
-    foreach (BpPartType bpType in shipPartsMap.Keys) {
-      switch (bpType) {
-        case BpPartType.Cargo:
-          AddCargoPartsToShip(ship, shipPartsMap[bpType]);
-          break;
-        case BpPartType.Thruster:
-          AddThrusterPartsToShip(ship, shipPartsMap[bpType]);
-          break;
-        case BpPartType.Mining:
-          AddMiningPartsToShip(ship, shipPartsMap[bpType]);
-          break;
-        default:
-          Debug.Log("Unsupported part type: " + bpType);
-          break;
-      }
-    }
-
-    // Generate sprite from bp parts
+    // TODO: Generate sprite from bp parts
     SpriteRenderer spriteR = shipObject.GetComponent<SpriteRenderer>();
     spriteR.sprite = Resources.Load<Sprite>("Sprites/testShipSpriteResource");
 
@@ -141,13 +117,16 @@ public class GeneralManager : MonoBehaviour {
   public GameObject ShipPrefab;
   public GameObject DebugShipAssembler;
   public Blueprint DebugBlueprint;
+  public BlueprintNew DebugBlueprintNew;
 
   public void DebugAddship() {
-    Blueprint bp = BlueprintUtils.ReadBlueprintFile(Application.persistentDataPath + "/" + BlueprintUtils.FormatBlueprintFilename(DebugBlueprint));
+    BlueprintNew bp = BlueprintUtils.ReadBlueprintFile(
+      Application.persistentDataPath + "/" + BlueprintUtils.FormatBlueprintFilename(DebugBlueprintNew)
+    );
     InstantiateShip(DebugShipAssembler.transform, bp);
   }
 
   public string DebugSaveBlueprint() {
-    return BlueprintUtils.SaveBlueprint(DebugBlueprint);
+    return BlueprintUtils.SaveBlueprint(DebugBlueprintNew);
   }
 }

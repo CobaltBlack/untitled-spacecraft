@@ -99,15 +99,15 @@ public class ShipEditorUIController : MonoBehaviour
         subPanel.SetActive(false);
         var subPanelData = subPanel.GetComponent<SESubPanel>();
         var rect = subPanel.GetComponent<RectTransform>();
-        var parts = BlueprintManager.Instance.GetBpPartsListByType(subPanelData.Type);
-        foreach (var part in parts)
-        {
-            GameObject currentButton = Instantiate(button, rect);
-            currentButton.GetComponent<Button>().onClick.AddListener(delegate {
-                shipEditorInstance.SelectShipPart(part);
-            });
-            currentButton.GetComponentInChildren<TextMeshProUGUI>().SetText(part.Id);
-        }
+        //var parts = BlueprintManager.Instance.GetBpPartsListByType(subPanelData.Type);
+        //foreach (var part in parts)
+        //{
+        //    GameObject currentButton = Instantiate(button, rect);
+        //    currentButton.GetComponent<Button>().onClick.AddListener(delegate {
+        //        shipEditorInstance.SelectShipPart(part);
+        //    });
+        //    currentButton.GetComponentInChildren<TextMeshProUGUI>().SetText(part.Id);
+        //}
     }
 
     private void ToggleSubPanel(GameObject subPanel)
