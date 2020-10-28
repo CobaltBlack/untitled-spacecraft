@@ -42,4 +42,11 @@ public class BlueprintUtils {
   public static string FormatBlueprintFilename(BlueprintNew bp) {
     return bp.Name + ".bp";
   }
+
+  public static bool ValidateBlueprint(BlueprintNew bp) {
+    // All Ids must be valid
+    // Equipment must not exceed internal cargo space on ship
+    // Ship must have enough power?? (somehow handle low power case...)
+    return true;
+  }
 }

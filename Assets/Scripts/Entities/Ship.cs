@@ -15,6 +15,9 @@ enum MovementState {
   Deccelerating
 }
 
+// Big note: Entity classes should contain only functions that does READ operations
+// Modifications should be done centrally in a Manager Class. 
+// This will make bugs more traceable
 
 // Old ship class implementation using Interfaces... will use component system instead
 public class Ship :
@@ -25,6 +28,7 @@ public class Ship :
 
 
   // usually constant variabless
+  public ShipClass ShipClass { get; set; }
 
   // Private
   private ShipState state;
@@ -45,25 +49,7 @@ public class Ship :
     state = ShipState.Idle;
   }
 
-  public BlueprintNew Blueprint { get; private set; }
-  public void InitBlueprint(BlueprintNew bp) {
-    Blueprint = bp;
-
-    // Each new behaviour is a component?
-    // Make components register as Observers
-
-    foreach (string id in bp.ShipAttachmentIds) {
-
-    }
-
-    foreach (string id in bp.ShipThrusterIds) {
-
-    }
-
-    foreach (string id in bp.ShipEquipmentIds) {
-
-    }
-  }
+  public BlueprintNew Blueprint { get; set; }
 
 
   // Set ship's common values

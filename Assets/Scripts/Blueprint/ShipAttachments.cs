@@ -5,6 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Ship Attachments/Mining")]
 public class MiningAttachment : ShipAttachment {
   public float MiningSpeed;
+  public float Range;
 } 
 
 [CreateAssetMenu(menuName = "Ship Attachments/Construction")]

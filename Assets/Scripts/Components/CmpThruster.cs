@@ -125,11 +125,11 @@ public class CmpThruster : BaseShipComponent
     // ========================
     // Component Initialization
 
-    public override void AddToShip(Ship ship)
-    {
-        base.AddToShip(ship);
-        ship.CmpThruster = this;
-    }
+    //public override void AddToShip(Ship ship)
+    //{
+    //    base.AddToShip(ship);
+    //    ship.CmpThruster = this;
+    //}
 
     public void AddThrusterPart(BpThruster thruster)
     {

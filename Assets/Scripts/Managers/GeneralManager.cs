@@ -59,10 +59,9 @@ public class GeneralManager : MonoBehaviour {
     GameObject shipObject = Instantiate(ShipPrefab, parent);
     var ship = shipObject.GetComponent<Ship>();
 
-    ship.InitBlueprint(bp);
+    ShipBuilder.InitShipWithBlueprint(ship, bp);
 
     // All ships register to central manager
-    ship.Id = IdGenerator.GenShipId();
     AllShips.Add(ship.Id, ship);
 
     // TODO: Generate sprite from bp parts
@@ -72,43 +71,6 @@ public class GeneralManager : MonoBehaviour {
     // Set collider box to same as sprite
     BoxCollider2D collider = shipObject.GetComponent<BoxCollider2D>();
     collider.size = spriteR.bounds.size;
-  }
-
-
-  void AddCargoPartsToShip(Ship ship, List<BlueprintPart> parts) {
-    GameObject shipObject = ship.gameObject;
-    var cmpCargo = shipObject.AddComponent<CmpCargo>() as CmpCargo;
-    cmpCargo.AddToShip(ship);
-    foreach (BpCargo cargo in parts) {
-      if (!cargo) continue;
-      Debug.Log(cargo.Name);
-      cmpCargo.AddCargoPart(cargo);
-    }
-  }
-
-
-  void AddThrusterPartsToShip(Ship ship, List<BlueprintPart> parts) {
-    GameObject shipObject = ship.gameObject;
-    var cmpThruster = shipObject.AddComponent<CmpThruster>() as CmpThruster;
-    cmpThruster.AddToShip(ship);
-    foreach (BpThruster thruster in parts) {
-      if (thruster) {
-        Debug.Log(thruster.Name);
-        cmpThruster.AddThrusterPart(thruster);
-      }
-    }
-    cmpThruster.UpdateByMass(ship.Mass);
-  }
-
-
-  void AddMiningPartsToShip(Ship ship, List<BlueprintPart> parts) {
-    GameObject shipObject = ship.gameObject;
-    var cmpMining = shipObject.AddComponent<CmpMining>() as CmpMining;
-    cmpMining.AddToShip(ship);
-    foreach (BpMiningLaser mining in parts) {
-      if (!mining) continue;
-      cmpMining.AddMiningPart(mining);
-    }
   }
 
 

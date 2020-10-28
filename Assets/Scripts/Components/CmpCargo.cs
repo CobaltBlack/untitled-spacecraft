@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
 
+// NOTE: Structures may also have cargo
+// This component needs to be generic enough
+
 // Ship component for carrying cargos of resources
 public class CmpCargo : BaseShipComponent
 {
@@ -16,11 +19,11 @@ public class CmpCargo : BaseShipComponent
         cargo = new Dictionary<ResourceType, uint>();
     }
 
-    public override void AddToShip(Ship ship)
-    {
-        base.AddToShip(ship);
-        ship.CmpCargo = this;
-    }
+    //public override void AddToShip(Ship ship)
+    //{
+    //    base.AddToShip(ship);
+    //    ship.CmpCargo = this;
+    //}
 
     public void AddCargoPart(BpCargo cargo)
     {

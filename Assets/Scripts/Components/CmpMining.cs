@@ -3,16 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 
 // Ship component for all kinds of mining
-public class CmpMining : BaseShipComponent
-{
-    public override void AddToShip(Ship ship)
-    {
-        base.AddToShip(ship);
-        ship.CmpMining = this;
-    }
+public class CmpMining : BaseShipComponent {
+  class Miner {
+    public MiningAttachment Data;
+  }
 
-    public void AddMiningPart(BpMiningLaser mining)
-    {
-        // Calculate mining rate
-    }
+  List<Miner> Miners = new List<Miner>();
+  
+  public void Add(MiningAttachment attachment) {
+    Miner m = new Miner();
+    m.Data = attachment;
+    Miners.Add(m);
+  }
 }

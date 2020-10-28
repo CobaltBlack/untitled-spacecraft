@@ -39,18 +39,30 @@ public class BlueprintManager : Singleton<BlueprintManager> {
   }
 
   public ShipClass GetShipClass(string id) {
-    return ShipClassById.ContainsKey(id) ? ShipClassById[id] : null;
+    if (!ShipClassById.ContainsKey(id)) {
+      Debug.LogError($"Cannot find ShipClass with ID={id}");
+    }
+    return ShipClassById[id];
   }
 
   public ShipAttachment GetAttachment(string id) {
-    return ShipAttachmentById.ContainsKey(id) ? ShipAttachmentById[id] : null;
+    if (!ShipAttachmentById.ContainsKey(id)) {
+      Debug.LogError($"Cannot find Attachment with ID={id}");
+    }
+    return ShipAttachmentById[id];
   }
 
   public ShipEquipment GetEquipment(string id) {
-    return ShipEquipmentById.ContainsKey(id) ? ShipEquipmentById[id] : null;
+    if (!ShipEquipmentById.ContainsKey(id)) {
+      Debug.LogError($"Cannot find Equipment with ID={id}");
+    }
+    return ShipEquipmentById[id];
   }
 
   public ShipThruster GetThruster(string id) {
-    return ShipThrusterById.ContainsKey(id) ? ShipThrusterById[id] : null;
+    if (!ShipThrusterById.ContainsKey(id)) {
+      Debug.LogError($"Cannot find Thruster with ID={id}");
+    }
+    return ShipThrusterById[id];
   }
 }
