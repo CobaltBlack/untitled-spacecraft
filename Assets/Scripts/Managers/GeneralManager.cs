@@ -51,7 +51,7 @@ public class GeneralManager : MonoBehaviour {
       (selectedEntity as IHasMapAction)?.ActOnMap(worldPos);
   }
 
-  private Dictionary<string, Ship> AllShips;
+  private Dictionary<string, Ship> AllShips = new Dictionary<string, Ship>();
 
   // parent represents the thing that spawns this ship (eg. the ship assembler)
   public void InstantiateShip(Transform parent, BlueprintNew bp) {
@@ -59,7 +59,7 @@ public class GeneralManager : MonoBehaviour {
     GameObject shipObject = Instantiate(ShipPrefab, parent);
     var ship = shipObject.GetComponent<Ship>();
 
-    ShipBuilder.InitShipWithBlueprint(ship, bp);
+    ShipBuilder.Instance.InitShipWithBlueprint(ship, bp);
 
     // All ships register to central manager
     AllShips.Add(ship.Id, ship);

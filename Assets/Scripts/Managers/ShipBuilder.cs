@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ShipBuilder : Singleton<BlueprintManager> {
+public class ShipBuilder : Singleton<ShipBuilder> {
   delegate void AddAttachment(Ship ship, ShipAttachment attachment);
-  static Dictionary<ShipAttachmentType, AddAttachment> AddAttachmentByType;
+  Dictionary<ShipAttachmentType, AddAttachment> AddAttachmentByType;
 
   void OnEnable() {
     AddAttachmentByType = new Dictionary<ShipAttachmentType, AddAttachment>() {
@@ -16,7 +16,7 @@ public class ShipBuilder : Singleton<BlueprintManager> {
     };
   }
 
-  public static void InitShipWithBlueprint(Ship ship, BlueprintNew bp) {
+  public void InitShipWithBlueprint(Ship ship, BlueprintNew bp) {
     ship.Id = IdGenerator.GenShipId();
     ship.Blueprint = bp;
     ShipClass shipClass = BlueprintManager.Instance.GetShipClass(bp.ShipClassId);
