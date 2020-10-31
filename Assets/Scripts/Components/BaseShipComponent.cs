@@ -4,5 +4,6 @@ using UnityEngine;
 
 public abstract class BaseShipComponent : MonoBehaviour
 {
-	protected Ship ship;
+	protected Ship Ship;
+	public float Mass { get; set; }
 }

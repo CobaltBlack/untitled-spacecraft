@@ -16,6 +16,29 @@ public class GeneralManager : MonoBehaviour {
     }
   }
 
+  private List<string> _shipsToPostProcess = new List<string>();
+
+  // MAIN GAME UPDATE LOOP
+  // All game sim logic should be executed from this Update() call
+  // This ensures that order of execution is determinant
+  void Update() {
+    _shipsToPostProcess.Clear();
+
+    // Process user input
+    InputManager.Instance.SimUpdate();
+
+    // Update all active ships
+    foreach (string shipId in ActiveShips) {
+      AllShips[shipId].SimUpdate();
+    }
+
+    // Perform necessary trigger checks
+    // If any triggers activated, ship should be in ActiveShips
+    foreach (string shipId in _shipsToPostProcess) {
+      AllShips[shipId].SimPostUpdate();
+    }
+  }
+
   private Entity selectedEntity;
 
   public void SelectEntity(Entity entity) {
@@ -51,6 +74,7 @@ public class GeneralManager : MonoBehaviour {
       (selectedEntity as IHasMapAction)?.ActOnMap(worldPos);
   }
 
+  private HashSet<string> ActiveShips = new HashSet<string>();
   private Dictionary<string, Ship> AllShips = new Dictionary<string, Ship>();
 
   // parent represents the thing that spawns this ship (eg. the ship assembler)

@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 
 enum ShipState {
   Idle,
-  Moving
+  Moving,
 }
 
 enum MovementState {
@@ -15,9 +15,19 @@ enum MovementState {
   Deccelerating
 }
 
-// Big note: Entity classes should contain only functions that does READ operations
+// Big note: For game logic/state data, entity classes should contain only functions that does READ operations
 // Modifications should be done centrally in a Manager Class. 
 // This will make bugs more traceable
+
+// Entity can modify its own data as long as it's not part of the sim
+
+// TODO: implement mass system
+// Lazy eval
+// When components make mass changes, set stale
+// When get mass, 
+//   if stale: calculate mass
+//   return mass
+// 
 
 // Old ship class implementation using Interfaces... will use component system instead
 public class Ship :
@@ -51,22 +61,37 @@ public class Ship :
 
   public BlueprintNew Blueprint { get; set; }
 
-
-  // Set ship's common values
-  public void AddBlueprintPart(BlueprintPart bpPart) {
-    Mass += bpPart.Mass;
-    Debug.Log("Mass is now: " + Mass);
+  private bool _isMassStale = true;
+  public void SetStaleMass() {
+    _isMassStale = true;
+  }
+  
+  private float _mass;
+  public float Mass {
+    get {
+      if (_isMassStale) {
+        _mass = CalculateShipMass();
+        _isMassStale = false;
+      }
+      return _mass;
+    }
   }
 
 
+  private float CalculateShipMass() {
+    // Add mass of ship class, components, cargo
+    return ShipClass.Mass 
+      + CmpThruster.Mass;
+  }
+
 
   public void OnSelect() {
-    Debug.Log(gameObject.name + ": I am selected");
+    Debug.Log("Selected: " + this.Id);
     // probably show some bling or some shit here
   }
 
   public void OnDeselect() {
-    Debug.Log(gameObject.name + ": No longer selected :(");
+    Debug.Log("No longer selected: " + this.Id);
   }
 
   public void ActOnMap(Vector2 mapPos) {
@@ -96,5 +121,18 @@ public class Ship :
         Amount = mined
       });
     }
+  }
+
+
+  public void SimUpdate() {
+    // Perform an update on current command
+    // CurrentTask.SimUpdate()
+    // move command
+    // mine command
+    // transfer command
+  }
+
+  public void SimPostUpdate() {
+    // Check for triggers
   }
 }

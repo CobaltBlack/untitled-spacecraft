@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class InputManager : MonoBehaviour {
+public class InputManager : Singleton<InputManager> {
   // Update is called once per frame
-  void Update() {
+  public void SimUpdate() {
     Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
     Vector2 mousePos2D = new Vector2(mousePos.x, mousePos.y);
     RaycastHit2D hit = Physics2D.Raycast(mousePos2D, Vector2.zero);

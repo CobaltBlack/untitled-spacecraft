@@ -182,6 +182,6 @@ public class ShipThruster : ScriptableObject {
   public List<ResourceAmount> BuildCost;
   public List<ResourceAmount> ResearchCost;
 
-  public uint Thrust;
+  public float Force;
   public List<ResourceAmount> PropellantCost;
 }
