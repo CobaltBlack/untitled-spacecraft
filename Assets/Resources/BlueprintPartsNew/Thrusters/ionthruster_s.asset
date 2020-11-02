@@ -17,9 +17,9 @@ MonoBehaviour:
   Description: 
   Sprite: {fileID: 0}
   Size: 0
-  Mass: 10
-  PowerConsumption: 5
+  Mass: 1
+  PowerConsumption: 1
   BuildCost: []
   ResearchCost: []
-  Thrust: 5
+  Force: 200
   PropellantCost: []

@@ -16,7 +16,7 @@ MonoBehaviour:
   Name: Drone
   Description: 
   Sprite: {fileID: 0}
-  Mass: 10
+  Mass: 500
   BuildCost: []
   ResearchCost: []
   CargoSpace: 10

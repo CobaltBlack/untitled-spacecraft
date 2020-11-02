@@ -53,7 +53,7 @@ public class Ship :
     _isMassStale = true;
   }
   
-  private float _mass;
+  private float _mass; // (kg)
   public float Mass {
     get {
       if (_isMassStale) {
@@ -110,7 +110,7 @@ public class Ship :
       // Create command and add it to the ship
       // Ship no longer in auto-mode?
       // Set ship as active 
-      MoveCommand command = new MoveCommand(this, mapPos, 1.0f);
+      MoveCommand command = new MoveCommand(this, mapPos);
       CurrentCommand = command;
       CommandQueue.Clear();
       GeneralManager.Instance.SetShipState(this, EntityState.Active);

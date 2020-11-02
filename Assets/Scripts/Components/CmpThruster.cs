@@ -10,7 +10,7 @@ public class CmpThruster : BaseShipComponent {
   public const float DISTANCE_THRESHOLD = 1.0f;
 
   public float MaxSpeed;
-  public float Acceleration;
+  public float Acceleration; // m/s^2
   public float TurnRate;
   public float TotalForce = 0;
 
@@ -18,19 +18,15 @@ public class CmpThruster : BaseShipComponent {
 
   // Movement
   private Vector3 destination;
-  private float currentAngle;
-  private Vector3 currentVelocity;
 
   void Start() {
     // TODO: initial values
     MaxSpeed = 10;
-    TurnRate = 2;
+    TurnRate = 1.0f;
 
     destination = new Vector3(transform.position.x, transform.position.y, 0.0f);
     transform.position = destination;
     currentSpeed = 0.0f;
-    currentAngle = 0.0f;
-    currentVelocity = new Vector3(0.0f, 0.0f, 0.0f);
   }
 
   // ========================
@@ -66,11 +62,8 @@ public class CmpThruster : BaseShipComponent {
   void OnShipMassChanged(Ship ship) {
     // Physics 101: F = ma, a = F/m
     this.Acceleration = this.TotalForce / ship.Mass;
-  }
 
-  // Update stats based on ship mass
-  public void UpdateByMass(float mass) {
-    // Physics 101: F = ma, a = F/m
-    Acceleration = TotalForce / mass;
+    // Calculate topspeed
+    // Calculate turn rate based on mass
   }
 }

@@ -11,14 +11,19 @@ public class MoveCommand : ICommand {
   
   private Vector3 _destination;
   private float _distanceThreshold;
+  private float _sqrDistanceThreshold;
+  private bool _isCorrectAngle = false;
+  private bool _isClose = false;
   private bool _isDone = false;
+  private float _decelerationValue;
 
   // distanceThreshold: Ship will stop moving once within certain distance to destination
-  public MoveCommand(Ship ship, Vector2 destination, float distanceThreshold) {
+  public MoveCommand(Ship ship, Vector2 destination, float distanceThreshold = 0.1f) {
     this._ship = ship;
     this._thruster = ship.CmpThruster;
     this._destination = new Vector3(destination.x, destination.y, 0.0f);
-    this._distanceThreshold = Mathf.Pow(distanceThreshold, 2);
+    this._distanceThreshold = distanceThreshold;
+    this._sqrDistanceThreshold = Mathf.Pow(distanceThreshold, 2);
   }
 
   ~MoveCommand() {
@@ -31,7 +36,7 @@ public class MoveCommand : ICommand {
 
     // Position delta
     Vector3 pos_d = _destination - transform.position;
-    if (pos_d.sqrMagnitude < _distanceThreshold) {
+    if (pos_d.sqrMagnitude <= _sqrDistanceThreshold && _thruster.currentSpeed < 0.1f) {
       _isDone = true;
       return;
     }
@@ -48,24 +53,24 @@ public class MoveCommand : ICommand {
       } else {
         angleDiff = Mathf.Max(angleDiff, -(_thruster.TurnRate));
       }
-
       transform.Rotate(Vector3.forward, angleDiff);
-    }
-
-
-    // Accelerate
-    float targetDistance = pos_d.magnitude;
-    if (_thruster.currentSpeed >= targetDistance) {
-      _thruster.currentSpeed = targetDistance;
     } else {
-      if (absAngleDiff > ANGLE_THRESHOLD) {
-        float accelFactor = Mathf.Pow((180.0f - absAngleDiff) / 180.0f, 2);
-        _thruster.currentSpeed = Mathf.Min(_thruster.MaxSpeed, _thruster.currentSpeed + _thruster.Acceleration * accelFactor);
-      } else {
-        _thruster.currentSpeed = Mathf.Min(_thruster.MaxSpeed, _thruster.currentSpeed + _thruster.Acceleration);
-      }
+      this._isCorrectAngle = true;
     }
 
+    // Stopping distance is how much further ship will travel if we only decel
+    float stoppingDistance = stoppingDistanceFormula(_thruster.currentSpeed, _thruster.Acceleration);
+    float targetDistance = pos_d.magnitude - _distanceThreshold;
+    if (targetDistance < stoppingDistance) {
+      this._isClose = true;
+    }
+
+    if (this._isClose || !this._isCorrectAngle) {
+      _thruster.currentSpeed = Mathf.Max(0, _thruster.currentSpeed - _thruster.Acceleration * Constants.FrameTime);
+    } else {
+      // Accelerate
+      _thruster.currentSpeed = Mathf.Min(_thruster.MaxSpeed, _thruster.currentSpeed + _thruster.Acceleration * Constants.FrameTime);
+    }
     var currentVelocity = Vector3FromAngleMagnitude((transform.eulerAngles.z + 90) * PI_180, _thruster.currentSpeed);
     transform.position += currentVelocity * Constants.FrameTime;
   } // End SimUpdate
@@ -98,5 +103,10 @@ public class MoveCommand : ICommand {
       outAngle += 360;
     }
     return outAngle;
+  }
+
+  float stoppingDistanceFormula(float speed, float accel) {
+    // somehow 0.5 is the correct constant here
+    return (0.5f * speed * speed) / accel;
   }
 }
