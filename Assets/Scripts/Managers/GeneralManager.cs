@@ -4,6 +4,11 @@ using System.Net.Mail;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
+public enum EntityState {
+  Idle,
+  Active,
+}
+
 public class GeneralManager : MonoBehaviour {
   // singleton boilerplate
   private static GeneralManager _instance;
@@ -16,6 +21,10 @@ public class GeneralManager : MonoBehaviour {
     }
   }
 
+  private Entity selectedEntity;
+
+  private Dictionary<string, Ship> AllShips = new Dictionary<string, Ship>();
+  private HashSet<string> ActiveShips = new HashSet<string>();
   private List<string> _shipsToPostProcess = new List<string>();
 
   // MAIN GAME UPDATE LOOP
@@ -33,13 +42,12 @@ public class GeneralManager : MonoBehaviour {
     }
 
     // Perform necessary trigger checks
-    // If any triggers activated, ship should be in ActiveShips
+    // If any triggers activated, ship will be added to ActiveShips
+    // If any commands completed, remove from ActiveShips
     foreach (string shipId in _shipsToPostProcess) {
       AllShips[shipId].SimPostUpdate();
     }
   }
-
-  private Entity selectedEntity;
 
   public void SelectEntity(Entity entity) {
     ISelectable i = entity as ISelectable;
@@ -74,9 +82,6 @@ public class GeneralManager : MonoBehaviour {
       (selectedEntity as IHasMapAction)?.ActOnMap(worldPos);
   }
 
-  private HashSet<string> ActiveShips = new HashSet<string>();
-  private Dictionary<string, Ship> AllShips = new Dictionary<string, Ship>();
-
   // parent represents the thing that spawns this ship (eg. the ship assembler)
   public void InstantiateShip(Transform parent, BlueprintNew bp) {
     // Instantiate the ship in game
@@ -95,6 +100,16 @@ public class GeneralManager : MonoBehaviour {
     // Set collider box to same as sprite
     BoxCollider2D collider = shipObject.GetComponent<BoxCollider2D>();
     collider.size = spriteR.bounds.size;
+  }
+
+
+  public void SetShipState(Ship ship, EntityState state) {
+    Debug.Log("SetShipState start");
+    if (EntityState.Idle == state) {
+      ActiveShips.Remove(ship.Id);
+    } else if (EntityState.Active == state) {
+      ActiveShips.Add(ship.Id);
+    }
   }
 
 

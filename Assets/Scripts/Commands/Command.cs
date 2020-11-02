@@ -4,5 +4,6 @@ using UnityEngine;
 
 public interface ICommand {
   // Runs one tick for this command
-  public void SimUpdate();
+  void SimUpdate();
+  bool IsDone();
 }

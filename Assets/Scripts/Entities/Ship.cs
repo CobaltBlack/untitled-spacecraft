@@ -3,16 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-enum ShipState {
-  Idle,
-  Moving,
-}
-
-enum MovementState {
-  Idle,
-  Accelerating,
-  Cruising,
-  Deccelerating
+public enum ShipEvent {
+  MassChanged,
 }
 
 // Big note: For game logic/state data, entity classes should contain only functions that does READ operations
@@ -40,9 +32,6 @@ public class Ship :
   // usually constant variabless
   public ShipClass ShipClass { get; set; }
 
-  // Private
-  private ShipState state;
-
   // Mining
   public uint MiningRate;
 
@@ -54,10 +43,8 @@ public class Ship :
   [HideInInspector]
   public CmpMining CmpMining;
 
-  // Start is called before the first frame update
-  void Start() {
-    state = ShipState.Idle;
-  }
+  public ICommand CurrentCommand;
+  public Queue<ICommand> CommandQueue = new Queue<ICommand>();
 
   public BlueprintNew Blueprint { get; set; }
 
@@ -72,16 +59,40 @@ public class Ship :
       if (_isMassStale) {
         _mass = CalculateShipMass();
         _isMassStale = false;
+        BroadcastShipEvent(ShipEvent.MassChanged);
       }
       return _mass;
     }
   }
 
-
   private float CalculateShipMass() {
     // Add mass of ship class, components, cargo
     return ShipClass.Mass 
       + CmpThruster.Mass;
+  }
+
+
+  public delegate void ShipEventCallback(Ship ship);
+  public delegate void UnregisterEventCallback(); // is this needed?
+  private Dictionary<ShipEvent, HashSet<ShipEventCallback>> EventCallbacks = new Dictionary<ShipEvent, HashSet<ShipEventCallback>>();
+
+  private void BroadcastShipEvent(ShipEvent e) {
+    if (!EventCallbacks.ContainsKey(e)) return;
+    foreach (var callback in EventCallbacks[e]) {
+      callback(this);
+    }
+  }
+
+  public UnregisterEventCallback RegisterEventCallback(ShipEvent e, ShipEventCallback callback) {
+    if (!EventCallbacks.ContainsKey(e)) {
+      EventCallbacks.Add(e, new HashSet<ShipEventCallback>());
+    }
+    HashSet<ShipEventCallback> callbacks = EventCallbacks[e];
+    callbacks.Add(callback);
+    UnregisterEventCallback unreg = () => {
+      callbacks.Remove(callback);
+    };
+    return unreg;
   }
 
 
@@ -95,8 +106,17 @@ public class Ship :
   }
 
   public void ActOnMap(Vector2 mapPos) {
+    Debug.Log(CmpThruster);
     if (CmpThruster) {
-      CmpThruster.setDestination(mapPos);
+      // Create command and add it to the ship
+      // Ship no longer in auto-mode?
+      // Set ship as active 
+      MoveCommand command = new MoveCommand(this, mapPos, 1.0f);
+      CurrentCommand = command;
+      CommandQueue.Clear();
+      GeneralManager.Instance.SetShipState(this, EntityState.Active);
+    } else {
+      Debug.Log("Ship has no thrusters!");
     }
   }
 
@@ -126,13 +146,22 @@ public class Ship :
 
   public void SimUpdate() {
     // Perform an update on current command
-    // CurrentTask.SimUpdate()
-    // move command
-    // mine command
-    // transfer command
+    if (CurrentCommand != null) {
+      CurrentCommand.SimUpdate();
+    }
   }
 
   public void SimPostUpdate() {
-    // Check for triggers
+    // Check if command is done
+    if (CurrentCommand != null && CurrentCommand.IsDone()) {
+      if (CommandQueue.Count > 0) {
+        CurrentCommand = CommandQueue.Dequeue();
+      } else {
+        CurrentCommand = null;
+        GeneralManager.Instance.SetShipState(this, EntityState.Idle);
+      }
+    }
+
+    // Check if any triggers should activate
   }
 }
