@@ -21,6 +21,10 @@ public class MoveCommand : ICommand {
     this._distanceThreshold = Mathf.Pow(distanceThreshold, 2);
   }
 
+  ~MoveCommand() {
+    Debug.Log("Move destructor");
+  }
+
   // Calculate ship movement
   public void SimUpdate() {
     var transform = _ship.transform;

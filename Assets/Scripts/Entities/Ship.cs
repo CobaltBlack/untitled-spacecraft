@@ -106,7 +106,6 @@ public class Ship :
   }
 
   public void ActOnMap(Vector2 mapPos) {
-    Debug.Log(CmpThruster);
     if (CmpThruster) {
       // Create command and add it to the ship
       // Ship no longer in auto-mode?
@@ -157,6 +156,7 @@ public class Ship :
       if (CommandQueue.Count > 0) {
         CurrentCommand = CommandQueue.Dequeue();
       } else {
+        Debug.Log("Clears command");
         CurrentCommand = null;
         GeneralManager.Instance.SetShipState(this, EntityState.Idle);
       }

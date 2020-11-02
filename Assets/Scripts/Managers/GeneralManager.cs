@@ -39,6 +39,7 @@ public class GeneralManager : MonoBehaviour {
     // Update all active ships
     foreach (string shipId in ActiveShips) {
       AllShips[shipId].SimUpdate();
+      _shipsToPostProcess.Add(shipId);
     }
 
     // Perform necessary trigger checks
@@ -104,7 +105,6 @@ public class GeneralManager : MonoBehaviour {
 
 
   public void SetShipState(Ship ship, EntityState state) {
-    Debug.Log("SetShipState start");
     if (EntityState.Idle == state) {
       ActiveShips.Remove(ship.Id);
     } else if (EntityState.Active == state) {
