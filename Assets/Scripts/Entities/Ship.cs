@@ -67,8 +67,9 @@ public class Ship :
 
   private float CalculateShipMass() {
     // Add mass of ship class, components, cargo
-    return ShipClass.Mass 
-      + CmpThruster.Mass;
+    return ShipClass.Mass
+      + (CmpThruster ? CmpThruster.Mass : 0)
+      + (CmpCargo ? CmpCargo.Mass : 0);
   }
 
 
@@ -122,7 +123,6 @@ public class Ship :
   public void ActOnEntity(Entity entity) {
     // Get this ship's available actions from blueprint
 
-
     // Get all actions that can act on this entity
 
     // For now, this ship can only mine
@@ -130,15 +130,15 @@ public class Ship :
     Debug.Log("ActOnEntity");
     IMineable i = entity as IMineable;
     if (i != null) {
-      uint mineAmount = MiningRate;
-      uint mined = i.OnMine(mineAmount);
-
-      // Add to cargo
-      ResourceType resourceType = i.GetResourceType();
-      CmpCargo.LoadCargo(new ResourceAmount {
-        Type = resourceType,
-        Amount = mined
-      });
+      if (CmpMining) {
+        // TODO: Check mining equipment range
+        MineCommand command = new MineCommand(this, i);
+        CurrentCommand = command;
+        CommandQueue.Clear();
+        GeneralManager.Instance.SetShipState(this, EntityState.Active);
+      } else {
+        Debug.Log("Ship has no Mining attachment!");
+      }
     }
   }
 

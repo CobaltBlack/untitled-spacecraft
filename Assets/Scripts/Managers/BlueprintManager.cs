@@ -12,7 +12,7 @@ public class BlueprintManager : Singleton<BlueprintManager> {
   private static Dictionary<string, ShipEquipment> ShipEquipmentById = new Dictionary<string, ShipEquipment>();
   private static Dictionary<string, ShipThruster> ShipThrusterById = new Dictionary<string, ShipThruster>();
   
-  void OnEnable() {
+  void Start() {
     InitializeBlueprintParts();
   }
 

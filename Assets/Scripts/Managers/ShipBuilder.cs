@@ -36,8 +36,6 @@ public class ShipBuilder : Singleton<ShipBuilder> {
 
     // All ships have a cargo component
     CmpCargo cargo = ship.gameObject.AddComponent<CmpCargo>() as CmpCargo;
-    cargo.MaxCargoSpace = shipClass.CargoSpace;
-    ship.CmpCargo = cargo;
 
     foreach (string id in bp.ShipAttachmentIds) {
       var attachment = BlueprintManager.Instance.GetAttachment(id);
@@ -60,7 +58,7 @@ public class ShipBuilder : Singleton<ShipBuilder> {
 
   void InitShipComponents(Ship ship) {
     InitCmpThruster(ship);
-    //InitCmpCargo(ship);
+    InitCmpCargo(ship);
     //InitCmpMining(ship);
   }
 
@@ -85,6 +83,8 @@ public class ShipBuilder : Singleton<ShipBuilder> {
   }
 
   void AddStorageAttachment(Ship ship, ShipAttachment attachment) {
+    // TODO
+    //ship.CmpCargo.MaxCargoSpace += ((StorageAttachment)attachment).CargoSize;
   }
 
   // Add Equipments
@@ -113,6 +113,13 @@ public class ShipBuilder : Singleton<ShipBuilder> {
 
   void InitCmpThruster(Ship ship) {
     CmpThruster cmp = ship.gameObject.GetComponent<CmpThruster>();
+    if (!cmp) {
+      return;
+    }
+    cmp.Init(ship);
+  }
+  void InitCmpCargo(Ship ship) {
+    CmpCargo cmp = ship.gameObject.GetComponent<CmpCargo>();
     if (!cmp) {
       return;
     }

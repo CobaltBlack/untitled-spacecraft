@@ -8,6 +8,16 @@ public class CmpMining : BaseShipComponent {
     public MiningAttachment Data;
   }
 
+  public uint MinedPerTick {
+    get {
+      uint sum = 0;
+      foreach (var m in Miners) {
+        sum += m.Data.MiningSpeed;
+      }
+      return sum;
+    }
+  }
+
   List<Miner> Miners = new List<Miner>();
   
   public void Add(MiningAttachment attachment) {
