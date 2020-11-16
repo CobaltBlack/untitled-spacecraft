@@ -15,7 +15,7 @@ MonoBehaviour:
   Id: drone
   Name: Drone
   Description: 
-  Sprite: {fileID: 0}
+  Sprite: {fileID: 21300000, guid: d3f9282ba07b22745b15ff4fa0b769a8, type: 3}
   Mass: 500
   BuildCost: []
   ResearchCost: []

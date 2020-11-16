@@ -93,14 +93,6 @@ public class GeneralManager : MonoBehaviour {
 
     // All ships register to central manager
     AllShips.Add(ship.Id, ship);
-
-    // TODO: Generate sprite from bp parts
-    SpriteRenderer spriteR = shipObject.GetComponent<SpriteRenderer>();
-    spriteR.sprite = Resources.Load<Sprite>("Sprites/testShipSpriteResource");
-
-    // Set collider box to same as sprite
-    BoxCollider2D collider = shipObject.GetComponent<BoxCollider2D>();
-    collider.size = spriteR.bounds.size;
   }
 
 

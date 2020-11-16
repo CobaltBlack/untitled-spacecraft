@@ -128,5 +128,14 @@ public class ShipBuilder : Singleton<ShipBuilder> {
 
   void FinalizeShip(Ship ship) {
     // what to do here...
+    var shipObject = ship.gameObject;
+
+    // TODO: Generate sprite from bp parts
+    SpriteRenderer spriteR = shipObject.GetComponent<SpriteRenderer>();
+    spriteR.sprite = ship.ShipClass.Sprite;
+
+    // Set collider box to same as sprite
+    BoxCollider2D collider = shipObject.GetComponent<BoxCollider2D>();
+    collider.size = spriteR.bounds.size;
   }
 }
